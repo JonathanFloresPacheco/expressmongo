@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1><%= title %> </h1>
+        <form action='/add' method="POST">
+            <legend> Add a Task</legend>
+            <div class="form group">
+                <input type="text" id='title' class="form-control" name="title">
+            </div>
+            <div class="form group">
+                <textarea placeholder="Add a description" class="form-control" name="description" rows="1" cols="50"></textarea>
+            </div>
+            <button class="btn btn-primary">
+                Add
+            </button>
+        </form>
+        <hr>
+        <table class="table table.bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>TItle</th>
+                    <th>Description</th>
+                    <th>OPerations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i<tasks.length; i++)  {%> 
+                    <tr>
+                        <td><% i + 1 %> </td>
+                        <td>
+                            <strong>
+                                <%= tasks[i].title %> 
+                            </strong>
+                        </td>
+                        <td>
+                            <%= tasks[i].description  %> 
+                        </td>
+                        <td>
+                            <a 
+                            class="<%= tasks[i].status ? 'btn btn-success':'btn btn-dark' %>" 
+                            href="/turn/<%=tasks[i]._id%>">Done</a>
+                            <a 
+                            id="delete"
+                            class="btn btn-danger"
+                            href="/delete/<%=tasks[i]._id%>">Delete</a>
+                        </td>
+                    </tr>
+                <%  }%> 
+            </tbody>
+        </table>
+    </div>
+    <script>
+       document.getElementById('title').focus(); 
+       document.getElementById('delete').addEventListener('click',function(e){
+           let response = confirm('are you sure to delete');
+           if(!response) {
+            e.preventDefault();
+           }
+       })
+    </script>
+</body>
+</html>
